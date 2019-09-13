@@ -10,8 +10,8 @@ A Python library for preprocessing Korean
  This module decompose korean letters to consonants and vowels. And the result data will be change in to 3 dimentional data, Which is like RGB image data.
  
 <pre><code>
-from KOR_3D.korto3d import Korto3D
-k3d = Korto3D()
+from KOR_3D.kor3d import Kor3D
+k3d = Kor3D()
 result = k3d.kor_trans('ㄱㅎㅏㅣ가힣az!)')
 print(result)
 
@@ -25,5 +25,7 @@ print(result)
          ['a', 'a', 'a'],
          ['z', 'z', 'z'],
          ['!', '!', '!'],
-         [')', ')', ')']], dtype='\<U1')
+         [')', ')', ')']])
 </code></pre>
+
+TODO: make compose back to original korean syllables
