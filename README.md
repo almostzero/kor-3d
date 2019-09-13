@@ -28,4 +28,4 @@ print(result)
          [')', ')', ')']])
 </code></pre>
 
-TODO: make compose back to original korean syllables
+TODO: make composing module back to original korean syllables
