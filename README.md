@@ -1,4 +1,4 @@
-# kor-3d
+# nlp_3d
 A Python library for preprocessing Korean
 
 
