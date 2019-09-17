@@ -2,10 +2,10 @@
 A Python library for preprocessing Korean
 
 # Environment
-ubuntu 18.04 LTS
-pyenv
-python 3.6.7
-jupyter lab
+- ubuntu 18.04 LTS
+- pyenv
+- python 3.6.7
+- jupyter lab
 
 # Usage
  Korean syllables(음절) are composed of 1 vowel(모음) and 1 or 2 consonants(자음). It's structure is different from any other languages.
