@@ -6,12 +6,18 @@ class Kor3D():
         self.syllable = 0xac00
         self.consonant = ord('ㄱ')
         self.vowel = ord('ㅏ')
+        self.upper_consonants = ['ㄱ','ㄲ','ㄴ','ㄷ','ㄸ','ㄹ','ㅁ','ㅂ','ㅃ','ㅅ','ㅆ','ㅇ','ㅈ','ㅉ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ']
+        self.vowels = ['ㅏ','ㅐ','ㅑ','ㅒ','ㅓ','ㅔ','ㅕ','ㅖ','ㅗ','ㅘ','ㅙ','ㅚ','ㅛ','ㅜ','ㅝ','ㅞ','ㅟ','ㅠ','ㅡ','ㅢ','ㅣ']
+        self.lower_consonants = ['ᆧ','ㄱ','ㄲ','ㄳ','ㄴ','ㄵ','ㄶ','ㄷ','ㄹ','ㄺ','ㄻ','ㄼ','ㄽ','ㄾ','ㄿ','ㅀ','ㅁ','ㅂ','ㅄ','ㅅ','ㅆ','ㅇ','ㅈ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ']
     
     def phoneme_decomposition(self, letter):
         #     음절코드: 0xac00, 초성코드: 0x1100, 중성코드: 0x1161, 종성코드: 0x11a8    
-        return [chr((ord(letter) - self.syllable) // (28 * 21) + 0x1100),
-               chr(((ord(letter) - self.syllable) % (28 * 21)) // 28 + 0x1161),
-               chr((ord(letter) - self.syllable) % 28 + 0x11a8 - 1).strip()]
+        # return [chr((ord(letter) - self.syllable) // (28 * 21) + 0x1100),
+        #        chr(((ord(letter) - self.syllable) % (28 * 21)) // 28 + 0x1161),
+        #        chr((ord(letter) - self.syllable) % 28 - 1 + 0x11a8).strip()]
+        return [self.upper_consonants[(ord(letter) - self.syllable) // (28 * 21)],
+               self.vowels[((ord(letter) - self.syllable) % (28 * 21)) // 28],
+               self.lower_consonants[(ord(letter) - self.syllable) % 28]]
     
     def trans_3d(self, letter):
         if self.syllable - 1 < ord(letter) < self.syllable + 11172:
@@ -32,3 +38,26 @@ class Kor3D():
 
         return trans_sent
     
+    def phoneme_composition(self, vector):
+        upper_consonant = self.upper_consonants.index(vector[0])
+        vowel = self.vowels.index(vector[1])
+        lower_consonant = self.lower_consonants.index(vector[2])
+        
+        return chr(((upper_consonant * 21) + vowel) * 28 + lower_consonant + 0xac00)
+    
+    def trans_1d(self, vector):
+        if vector[0] == vector[1] == vector[2]:
+            letter = vector[0]
+        elif not vector[2]:
+            letter = [x for x in vector if x][0]
+        else:
+            letter = self.phoneme_composition(vector)
+            
+        return letter
+    
+    def vec_trans(self, vectors):
+        start = time()
+        trans_vec = np.array([self.trans_1d(vector) for vector in vectors])
+        print(f'{time() - start} sec')
+        
+        return ''.join(trans_vec)
