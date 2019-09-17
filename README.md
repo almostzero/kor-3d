@@ -12,6 +12,8 @@ A Python library for preprocessing Korean
 <pre><code>
 from KOR_3D.kor3d import Kor3D
 k3d = Kor3D()
+
+# phoneme decomposition
 result = k3d.kor_trans('ㄱㅎㅏㅣ가힣az!)')
 print(result)
 
@@ -26,6 +28,14 @@ print(result)
          ['z', 'z', 'z'],
          ['!', '!', '!'],
          [')', ')', ')']])
+
+# phoneme composition
+recover = k3d.vec_trans(result)
+print(''.join(recover))
+
+>>  6.771087646484375e-05 sec
+>>  'ㄱㅎㅏㅣ가힣az!)'
 </code></pre>
 
-TODO: make composing module back to original korean syllables
+~~TODO: make composing module back to original korean syllables~~
+Korean nlp preprocessing module finished.
