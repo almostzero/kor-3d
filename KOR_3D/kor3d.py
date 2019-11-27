@@ -1,5 +1,6 @@
 import numpy as np
-from time import time
+
+from Utils.show_progress import Timer
 
 class Kor3D():
     def __init__(self):
@@ -31,10 +32,10 @@ class Kor3D():
         
         return letter_3d
     
+    @Timer()
     def kor_trans(self, sentence):
-        start = time()
         trans_sent = np.array([self.trans_3d(letter) for letter in sentence])
-        print(f'{time() - start} sec')
+        print(f'tranfrom string to 3*n dimension array')
 
         return trans_sent
     
@@ -55,9 +56,9 @@ class Kor3D():
             
         return letter
     
+    @Timer()
     def vec_trans(self, vectors):
-        start = time()
         trans_vec = np.array([self.trans_1d(vector) for vector in vectors])
-        print(f'{time() - start} sec')
+        print(f'tranfrom 3*n dimension array to string')
         
         return ''.join(trans_vec)
