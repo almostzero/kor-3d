@@ -32,7 +32,7 @@ class Kor3D():
         
         return letter_3d
     
-    @Timer()
+    @Timer(message='transform to array')
     def kor_trans(self, sentence):
         trans_sent = np.array([self.trans_3d(letter) for letter in sentence])
         print(f'tranfrom string to 3*n dimension array')
@@ -56,7 +56,7 @@ class Kor3D():
             
         return letter
     
-    @Timer()
+    @Timer(message='transform to string')
     def vec_trans(self, vectors):
         trans_vec = np.array([self.trans_1d(vector) for vector in vectors])
         print(f'tranfrom 3*n dimension array to string')
