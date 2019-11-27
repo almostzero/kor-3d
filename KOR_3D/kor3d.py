@@ -2,7 +2,7 @@ import numpy as np
 
 from Utils.show_progress import Timer
 
-class Kor3D():
+class Kor3D:
     def __init__(self):
         self.syllable = 0xac00
         self.consonant = ord('ㄱ')
