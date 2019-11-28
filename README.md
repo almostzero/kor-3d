@@ -42,5 +42,5 @@ print(''.join(recover))
 >>  'ㄱㅎㅏㅣ가힣az!)'
 </code></pre>
 
-~~Korean nlp 3D preprocessing module finishe.~~  
+~~Korean nlp 3D preprocessing module finished.~~  
 Adding Timer...
