@@ -20,7 +20,7 @@ class Kor3D:
                self.vowels[((ord(letter) - self.syllable) % (28 * 21)) // 28],
                self.lower_consonants[(ord(letter) - self.syllable) % 28]]
     
-    def trans_3d(self, letter):
+    def trans_syllable_3d(self, letter):
         if self.syllable - 1 < ord(letter) < self.syllable + 11172:
             letter_3d = self.phoneme_decomposition(letter)
         elif self.consonant - 1 < ord(letter) < self.consonant + 30:
@@ -33,8 +33,8 @@ class Kor3D:
         return letter_3d
     
     @Timer(message='transform to array')
-    def kor_trans(self, sentence):
-        trans_sent = np.array([self.trans_3d(letter) for letter in sentence])
+    def trans_sent_3n(self, sentence):
+        trans_sent = np.array([self.trans_syllable_3d(letter) for letter in sentence])
         print(f'tranfrom string to 3*n dimension array')
 
         return trans_sent
@@ -46,7 +46,7 @@ class Kor3D:
         
         return chr(((upper_consonant * 21) + vowel) * 28 + lower_consonant + 0xac00)
     
-    def trans_1d(self, vector):
+    def trans_syllable_1d(self, vector):
         if vector[0] == vector[1] == vector[2]:
             letter = vector[0]
         elif not vector[2]:
@@ -56,9 +56,9 @@ class Kor3D:
             
         return letter
     
-    @Timer(message='transform to string')
-    def vec_trans(self, vectors):
-        trans_vec = np.array([self.trans_1d(vector) for vector in vectors])
+    @Timer(message='transform 3D array to sentence')
+    def trans_sent_1n(self, vectors):
+        trans_vec = [self.trans_syllable_1d(vector) for vector in vectors]
         print(f'tranfrom 3*n dimension array to string')
         
         return ''.join(trans_vec)
