@@ -1,6 +1,6 @@
 import numpy as np
 
-from Utils.show_progress import Timer
+from Utils.timer_decorator import Timer
 
 class Kor3D:
     def __init__(self):
