@@ -1,0 +1,6 @@
+# User ignore extensions
+.env
+__pycache__
+.idea/*
+.pyc
+*.csv

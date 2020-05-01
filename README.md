@@ -3,8 +3,7 @@ A Python library for preprocessing Korean
 
 # Environment
 - ubuntu 18.04 LTS
-- pyenv
-- python 3.6.7
+- python 3.7
 - jupyter lab
 
 # Usage
