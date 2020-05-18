@@ -1,5 +1,7 @@
 import numpy as np
-from .LETTERS import *
+from .LETTERS import kor_phonemes, kor_re, eng_phonemes, eng_re
+import numpy as np
+
 
 # 일본어는 나중에
 # https://m.blog.naver.com/PostView.nhn?blogId=aoba8615&logNo=140012660052&proxyReferer=https:%2F%2Fwww.google.com%2F
@@ -15,7 +17,7 @@ def check_encodings(string):
     pass
 
 
-def lang(syllable):
+def syll_lang(syllable):
     """
     음절의 언어를 분류해주는 함수
     현재는 한글, 영어, 특수문자를 구분
@@ -51,6 +53,7 @@ def syll2vect_kor(syllable):
 
     return vector
 
+
 def syll2vect_eng(syllable):
     if syllable.lower() in eng_phonemes['consonants']:
         vector = [syllable, '', '']
@@ -59,10 +62,12 @@ def syll2vect_eng(syllable):
 
     return vector
 
+
 def syll2vect_sc(syllable):
     vector = ['', '', syllable]
 
     return vector
+
 
 def syll2vect(syllable):
     """
@@ -76,7 +81,7 @@ def syll2vect(syllable):
         'eng': syll2vect_eng,
         'sc': syll2vect_sc
     }
-    vector = trans_dict[lang(syllable)](syllable)
+    vector = trans_dict[syll_lang(syllable)](syllable)
 
     return vector
 
@@ -90,4 +95,55 @@ def sent2vects(sentence):
     """
     vectors = [syll2vect(syllable) for syllable in sentence]
 
-    return vectors
+    return np.array(vectors)
+
+
+def vect_lang(vector):
+    joined_vect = ''.join(vector)
+    kor = kor_re.search(joined_vect)
+    eng = eng_re.search(joined_vect)
+
+    if kor:
+        language = 'kor'
+    elif eng:
+        language = 'eng'
+    else:
+        language = 'sc'
+
+    return language
+
+
+def vect2syll_kor(vector):
+    syllable = ''.join(vector)
+    if len(syllable) > 1:
+        # onset, nucleua, coda = (kor_phonemes[element].index(vector[i]) for i, element in enumerate(kor_phonemes.keys()))
+        onset = kor_phonemes['onset'].index(vector[0])
+        nucleua = kor_phonemes['nucleua'].index(vector[1])
+        coda = kor_phonemes['coda'].index(vector[2])
+
+        syllable = chr(((onset * 21) + nucleua) * 28 + coda + 0xac00)
+
+    return syllable
+
+
+def vect2syll_etc(vector):
+    syllable = ''.join(vector)
+
+    return syllable
+
+
+def vect2syll(vector):
+    trans_dict = {
+        'kor': vect2syll_kor,
+        'eng': vect2syll_etc,
+        'sc': vect2syll_etc
+    }
+    syllable = trans_dict[vect_lang(vector)](vector)
+
+    return syllable
+
+
+def vects2sent(vectors):
+    sentence = ''.join([vect2syll(vector) for vector in vectors])
+
+    return sentence

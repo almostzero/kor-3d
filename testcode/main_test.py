@@ -1,10 +1,10 @@
-from KOR_3D.kor3d import *
+from KOR_3D.kor3d import sent2vects, vects2sent
 
 # phoneme decomposition
-text = 'ㄱㅎㅏㅣ가힣az!)'
+text = 'ㄱㄲㅎㄳㅄㅏㅣㅢ가깬댟az !)123'
 result = sent2vects(text)
 print(result)
 
-sart_point = 0xac00
-''.join([chr(i) for i in range(sart_point, sart_point + 200)])
-
+recover = vects2sent(result)
+print(''.join(recover))
+text == recover
